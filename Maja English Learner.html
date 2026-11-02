@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Maja English Learner</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Noto+Sans+Tamil:wght@400;600&family=Nunito:wght@400;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#2d2a4a;--muted:#6b6890;--bg:#fff9f0;--card:#fff;--pink:#ff6b8b;--sun:#ffb62e;--mint:#2ec4b6;--sky:#5b8def;--line:#ece7f7;--ok:#22a06b;--bad:#e5484d}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Nunito","Noto Sans Tamil",system-ui,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6;padding-top:env(safe-area-inset-top,0px)}
+h1,h2,h3{font-family:"Baloo 2",sans-serif;line-height:1.2;margin:.2em 0}
+.wrap{max-width:900px;margin:0 auto;padding:20px}
+.tamil{font-family:"Noto Sans Tamil",sans-serif}
+nav{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:#fff;position:sticky;top:0;z-index:5;box-shadow:0 2px 12px #0001}
+.logo{font-family:"Baloo 2";font-weight:800;font-size:1.3rem;color:var(--pink)}
+.stats{display:flex;gap:12px;font-weight:800;font-size:.95rem}
+.hero{background:linear-gradient(135deg,var(--pink),var(--sun));color:#fff;border-radius:28px;padding:36px 26px;text-align:center;margin-top:16px;position:relative;overflow:hidden}
+.hero h1{font-size:2.3rem}
+.hero p{font-size:1.1rem;opacity:.95}
+.hero .float{font-size:3rem;animation:bob 2.4s ease-in-out infinite;display:inline-block}
+@keyframes bob{50%{transform:translateY(-8px) rotate(4deg)}}
+.card{background:var(--card);border-radius:22px;padding:22px;margin-top:18px;box-shadow:0 6px 22px #2d2a4a10;transition:transform .2s}
+.card:hover{transform:translateY(-3px)}
+form{display:grid;gap:12px;margin-top:10px}
+label{font-weight:800;font-size:.9rem;display:grid;gap:5px}
+input,select{font:inherit;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:#fcfbff}
+input:focus,select:focus{outline:none;border-color:var(--sky)}
+.btn{font:inherit;font-weight:800;border:0;border-radius:16px;padding:13px 22px;background:var(--pink);color:#fff;cursor:pointer;box-shadow:0 5px 0 #d64d6b;transition:transform .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #d64d6b}
+.btn.alt{background:var(--mint);box-shadow:0 5px 0 #1e9a8f}
+.btn.ghost{background:#fff;color:var(--ink);box-shadow:0 4px 0 var(--line);border:2px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.hidden{display:none!important}
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:14px}
+.level{border-radius:22px;padding:20px;color:#fff;position:relative;min-height:170px}
+.level .emo{font-size:2.4rem}
+.level.locked{filter:grayscale(.8);opacity:.7}
+.lvl1{background:linear-gradient(135deg,#ff8a5b,#ffb62e)}
+.lvl2{background:linear-gradient(135deg,#2ec4b6,#5bd6a0)}
+.lvl3{background:linear-gradient(135deg,#5b8def,#8f7bff)}
+.lvl4{background:linear-gradient(135deg,#ff6b8b,#c77dff)}
+.lvl5{background:linear-gradient(135deg,#333a6b,#5b8def)}
+.bar{height:12px;background:#ffffff55;border-radius:99px;overflow:hidden;margin-top:10px}
+.bar>div{height:100%;background:#fff;width:0;transition:width .6s ease;border-radius:99px}
+.lessons{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:12px}
+.lesson{background:#fff;border-radius:18px;padding:14px;border:2px solid var(--line);cursor:pointer;text-align:center;transition:transform .15s}
+.lesson:hover{transform:scale(1.04)}
+.lesson.done{border-color:var(--ok);background:#effbf5}
+.lesson .n{font-weight:800;color:var(--muted);font-size:.85rem}
+.lesson .e{font-size:2rem}
+.step-dots{display:flex;gap:8px;justify-content:center;margin:6px 0 14px}
+.step-dots span{width:12px;height:12px;border-radius:50%;background:var(--line);transition:background .3s}
+.step-dots span.on{background:var(--sun)}
+.big{font-size:3.5rem;text-align:center}
+.ex{background:#f5f3ff;border-radius:14px;padding:12px 14px;margin:8px 0;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.ex .ta{color:var(--muted)}
+.opt{display:block;width:100%;text-align:left;margin:8px 0;padding:13px 16px;border-radius:14px;border:2px solid var(--line);background:#fff;font:inherit;font-weight:700;cursor:pointer}
+.opt.right{border-color:var(--ok);background:#effbf5}
+.opt.wrong{border-color:var(--bad);background:#fff0f0}
+.feedback{font-weight:800;min-height:1.6em;margin-top:6px}
+.celebrate{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:50}
+.celebrate span{position:absolute;top:-10%;font-size:1.8rem;animation:fall 1.8s linear forwards}
+@keyframes fall{to{transform:translateY(120vh) rotate(540deg)}}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:14px 22px;border-radius:18px;font-weight:800;z-index:60;box-shadow:0 10px 30px #0004;animation:pop .4s ease}
+@keyframes pop{from{transform:translate(-50%,20px);opacity:0}}
+.note{font-size:.85rem;color:var(--muted)}
+footer{text-align:center;color:var(--muted);padding:30px 0 60px;font-size:.9rem}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (prefers-color-scheme:dark){:root{--bg:#1d1b2e;--card:#26233d;--ink:#f4f2ff;--muted:#b3afd6;--line:#3a3658}input,select,.opt,.lesson,.ex{background:#2e2a48;color:var(--ink)}nav{background:#26233d}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">🌟 Maja English</div>
+  <div class="stats"><span>⭐ <b id="stars">0</b></span><span>🔥 <b id="streak">0</b> day streak</span></div>
+</nav>
+
+<main class="wrap">
+
+  <!-- HERO + SIGN UP -->
+  <section id="hero">
+    <div class="hero">
+      <div class="float">🗣️</div>
+      <h1>Speak English with confidence</h1>
+      <p class="tamil">தமிழில் விளக்கம், எளிய பயிற்சி — தினமும் 10 நிமிடம்!</p>
+      <p>Learn in short, fun lessons. Zero to fluent, one day at a time.</p>
+    </div>
+
+    <div class="card" id="signupCard">
+      <h2>Start your journey 🚀</h2>
+      <p class="note">Fill in a few details so we can guide you through the right path.</p>
+      <form id="signupForm">
+        <label>Name <input name="name" required placeholder="Your name"></label>
+        <label>Email <input name="email" type="email" required placeholder="you@example.com"></label>
+        <label>Phone number <input name="phone" type="tel" required placeholder="+91 98765 43210"></label>
+        <label>What are you studying?
+          <select name="study" required>
+            <option value="">Choose one</option>
+            <option>School</option><option>College</option><option>Working professional</option><option>Other</option>
+          </select></label>
+        <label>Your current English level
+          <select name="stage" required>
+            <option value="">Choose one</option>
+            <option>Beginner (I know very little)</option>
+            <option>Some basics</option>
+            <option>Intermediate</option>
+          </select></label>
+        <button class="btn" type="submit" id="sendBtn">Send 🚀</button>
+      </form>
+    </div>
+
+    <div class="card hidden" id="successCard">
+      <h2>🎉 Welcome, <span id="welcomeName"></span>!</h2>
+      <p>Your details are submitted. Your course path is below — start with Day 1!</p>
+    </div>
+  </section>
+
+  <!-- LEVELS (after sign-up) -->
+  <section id="levelsSection" class="hidden">
+    <h2 style="margin-top:28px">Your course path 🗺️</h2>
+    <div class="levels" id="levels"></div>
+  </section>
+
+  <!-- LEVEL 1 LESSON LIST -->
+  <section id="lessonSection" class="hidden">
+    <div class="card">
+      <h2>Level 1: Basic 🌱</h2>
+      <p class="note">Days 1–20. Each lesson takes about 5–10 minutes.</p>
+      <div class="bar" style="background:var(--line)"><div id="lvlBar" style="background:var(--pink)"></div></div>
+      <div class="lessons" id="lessonList"></div>
+      <p class="note" style="margin-top:14px">Days 6–20 are coming soon. The final Level 1 test unlocks after Day 20.</p>
+    </div>
+  </section>
+
+  <!-- LESSON PLAYER -->
+  <section id="player" class="hidden">
+    <div class="card">
+      <div class="step-dots" id="dots"></div>
+      <div id="stepBody"></div>
+      <div style="display:flex;justify-content:space-between;margin-top:18px;gap:10px">
+        <button class="btn ghost" id="backBtn">← Back</button>
+        <button class="btn" id="nextBtn">Next →</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>Made with care for learners 💛 · Maja English Learner</footer>
+</main>
+
+<script>
+/* ===== CONFIG =====
+   Put your form endpoint here (e.g. a Formspree URL) so submissions reach you.
+   If empty, sign-ups are saved in this browser only. */
+const FORM_ENDPOINT = "";
+
+/* ===== LESSONS (Level 1 — first five of twenty) ===== */
+const LESSONS = [
+  {t:"Alphabets & Sounds", e:"🔤",
+   tamil:"ஆங்கிலத்தில் 26 எழுத்துகள் (letters) உள்ளன. ஒவ்வொரு எழுத்துக்கும் ஒரு ஒலி உண்டு. முதலில் சத்தமாக படியுங்கள்!",
+   ex:[["A is for Apple","ஆப்பிள்"],["B is for Ball","பந்து"],["C is for Cat","பூனை"]],
+   q:{text:"Which letter starts the word 'Cat'?",opts:["C","K","D"],a:0,why:"'Cat' starts with C. (C = க / ச sound)"},
+   speak:"A is for Apple."},
+  {t:"Greetings", e:"👋",
+   tamil:"யாரையாவது சந்திக்கும்போது சொல்லும் வாழ்த்துகள். நேரத்துக்கு ஏற்ப வாழ்த்து மாறும்.",
+   ex:[["Hello!","வணக்கம்!"],["Good morning","காலை வணக்கம்"],["How are you?","நீங்கள் எப்படி இருக்கிறீர்கள்?"]],
+   q:{text:"Which greeting do you say in the morning?",opts:["Good night","Good morning","Goodbye"],a:1,why:"'Good morning' is for morning time."},
+   speak:"Good morning, my name is Ravi."},
+  {t:"Numbers", e:"🔢",
+   tamil:"1 முதல் 10 வரை எண்களை கற்போம். Count with your fingers!",
+   ex:[["One","ஒன்று"],["Two","இரண்டு"],["Three","மூன்று"]],
+   q:{text:"What does 'Three' mean?",opts:["மூன்று","நான்கு","இரண்டு"],a:0,why:"Three = மூன்று."},
+   speak:"I have three books."},
+  {t:"Articles: a, an, the", e:"📘",
+   tamil:"'a' / 'an' = ஒரு (any one). 'the' = அந்த குறிப்பிட்ட. Vowel sound (A, E, I, O, U) வந்தால் 'an' பயன்படுத்துங்கள்.",
+   ex:[["I have a pen.","என்னிடம் ஒரு பேனா உள்ளது."],["She eats an apple.","அவள் ஒரு ஆப்பிள் சாப்பிடுகிறாள்."],["Close the door.","கதவை மூடு."]],
+   q:{text:"I have ___ apple.",opts:["a","an","the"],a:1,why:"'apple' starts with a vowel sound, so use 'an'."},
+   speak:"I eat an apple every day."},
+  {t:"Simple Present", e:"☀️",
+   tamil:"தினமும் நடக்கும் செயல்களுக்கு present tense. He / She / It வந்தால் verb-ல் 's' சேர்க்கவும்.",
+   ex:[["I drink tea.","நான் தேநீர் குடிக்கிறேன்."],["She drinks water.","அவள் தண்ணீர் குடிக்கிறாள்."],["They play cricket.","அவர்கள் கிரிக்கெட் விளையாடுகிறார்கள்."]],
+   q:{text:"She ___ tea every morning.",opts:["drink","drinks","drinking"],a:1,why:"With 'She', add 's': drinks."},
+   speak:"She drinks water."}
+];
+
+/* ===== STATE ===== */
+const KEY="maja_progress_v1";
+let state={name:"",signedUp:false,done:[],stars:0,streak:0,lastDay:""};
+try{Object.assign(state,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}};
+
+const $=s=>document.querySelector(s);
+const show=(el,on=true)=>el.classList.toggle("hidden",!on);
+
+/* ===== STREAK ===== */
+function touchStreak(){
+  const today=new Date().toDateString();
+  if(state.lastDay===today)return;
+  const y=new Date(Date.now()-864e5).toDateString();
+  state.streak=state.lastDay===y?state.streak+1:1;
+  state.lastDay=today;save();
+}
+
+/* ===== RENDER ===== */
+function renderStats(){
+  $("#stars").textContent=state.stars;
+  $("#streak").textContent=state.streak;
+}
+function renderLevels(){
+  const lv=[
+    {n:1,name:"Basic",emo:"🌱",cls:"lvl1",unlocked:true,sub:"Alphabets, greetings, numbers…"},
+    {n:2,name:"Elementary",emo:"🌿",cls:"lvl2",unlocked:false,sub:"Past & future, questions"},
+    {n:3,name:"Intermediate",emo:"🚀",cls:"lvl3",unlocked:false,sub:"Present perfect, conditionals"},
+    {n:4,name:"Upper-Intermediate",emo:"💬",cls:"lvl4",unlocked:false,sub:"Passive voice, idioms"},
+    {n:5,name:"Fluency",emo:"🏆",cls:"lvl5",unlocked:false,sub:"Nuance, storytelling, debate"}
+  ];
+  const pct=Math.round(state.done.length/LESSONS.length*100);
+  $("#levels").innerHTML=lv.map(l=>`
+    <div class="level ${l.cls} ${l.unlocked?"":"locked"}" ${l.n===1?'onclick="showLessons()" style="cursor:pointer"':""}>
+      <div class="emo">${l.unlocked?l.emo:"🔒"}</div>
+      <h3>Level ${l.n}: ${l.name}</h3>
+      <p style="margin:.2em 0">${l.sub}</p>
+      ${l.n===1?`<div class="bar"><div style="width:${pct}%"></div></div><p class="note" style="color:#fff">${state.done.length}/${LESSONS.length} lessons done</p>`:`<p class="note" style="color:#fff">Coming soon</p>`}
+    </div>`).join("");
+}
+function showLessons(){
+  show($("#player"),false);show($("#lessonSection"),true);
+  $("#lessonList").innerHTML=LESSONS.map((l,i)=>`
+    <div class="lesson ${state.done.includes(i)?"done":""}" onclick="openLesson(${i})">
+      <div class="n">Day ${i+1}</div><div class="e">${l.e}</div>
+      <div><b>${l.t}</b></div>${state.done.includes(i)?"<div>✅</div>":""}
+    </div>`).join("");
+  const pct=Math.round(state.done.length/LESSONS.length*100);
+  $("#lvlBar").style.width=pct+"%";
+  window.scrollTo({top:$("#lessonSection").offsetTop-70,behavior:"smooth"});
+}
+
+/* ===== LESSON PLAYER ===== */
+let cur=0,step=0,answered=false,lessonScore=0;
+const STEPS=["explain","examples","practice","speak"];
+
+function openLesson(i){
+  cur=i;step=0;answered=false;
+  show($("#player"),true);
+  renderStep();
+  $("#player").scrollIntoView({behavior:"smooth"});
+}
+function renderStep(){
+  const L=LESSONS[cur];
+  $("#dots").innerHTML=STEPS.map((_,i)=>`<span class="${i<=step?"on":""}"></span>`).join("");
+  $("#backBtn").disabled=step===0;
+  const b=$("#stepBody"), n=$("#nextBtn");
+  n.disabled=false;n.textContent=step===3?"Finish 🎉":"Next →";
+
+  if(step===0){
+    b.innerHTML=`<div class="big">${L.e}</div><h2 style="text-align:center">Day ${cur+1}: ${L.t}</h2>
+      <p class="tamil" style="font-size:1.05rem">${L.tamil}</p>`;
+  }
+  if(step===1){
+    b.innerHTML=`<h3>Say it in English 🗣️</h3>`+L.ex.map(([en,ta])=>
+      `<div class="ex"><b>${en}</b><span class="ta tamil">${ta}</span></div>`).join("")+
+      `<button class="btn ghost" onclick="speak('${L.ex[0][0]}')">🔊 Listen</button>`;
+  }
+  if(step===2){
+    answered=false;n.disabled=true;
+    b.innerHTML=`<h3>Quick check ✏️</h3><p>${L.q.text}</p>`+
+      L.q.opts.map((o,i)=>`<button class="opt" onclick="pick(${i})">${o}</button>`).join("")+
+      `<div class="feedback" id="fb"></div>`;
+  }
+  if(step===3){
+    b.innerHTML=`<h3>Speak it aloud 🎤</h3><p class="note">Read this sentence out loud, then tap Listen to hear it again.</p>
+      <div class="ex" style="font-size:1.3rem"><b>${L.speak}</b></div>
+      <button class="btn ghost" onclick="speak('${L.speak}')">🔊 Listen</button>`;
+  }
+}
+function pick(i){
+  if(answered)return;answered=true;
+  const L=LESSONS[cur],btns=document.querySelectorAll(".opt");
+  const ok=i===L.q.a;
+  btns[i].classList.add(ok?"right":"wrong");
+  btns[L.q.a].classList.add("right");
+  $("#fb").style.color=ok?"var(--ok)":"var(--bad)";
+  $("#fb").textContent=(ok?"Correct! 🌟 ":"Not quite. ")+L.q.why;
+  if(ok)lessonScore=1;
+  $("#nextBtn").disabled=false;
+}
+$("#nextBtn").onclick=()=>{
+  if(step<3){step++;renderStep();return;}
+  completeLesson();
+};
+$("#backBtn").onclick=()=>{if(step>0){step--;renderStep();}};
+
+function completeLesson(){
+  if(!state.done.includes(cur)){
+    state.done.push(cur);
+    state.stars+=3;
+    touchStreak();
+    save();
+  }
+  renderStats();renderLevels();
+  if(state.done.length===LESSONS.length){
+    celebrate(true);
+    toast("🏆 Level 1 complete! You earned the Basic Explorer badge!");
+  }else{
+    celebrate(false);
+    toast(["Great job! ⭐","Congratulations! 🎉","Well done, keep going! 💪"][cur%3]);
+  }
+  show($("#player"),false);
+  showLessons();
+}
+
+function speak(text){
+  try{const u=new SpeechSynthesisUtterance(text);u.lang="en-US";u.rate=.9;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}
+}
+
+/* ===== CELEBRATION ===== */
+function celebrate(big){
+  const box=document.createElement("div");box.className="celebrate";
+  const emo=big?["🏆","⭐","🎉","🎊","🥇","🌟"]:["⭐","🎉","✨"];
+  const n=big?60:24;
+  for(let i=0;i<n;i++){
+    const s=document.createElement("span");
+    s.textContent=emo[i%emo.length];
+    s.style.left=Math.random()*100+"%";
+    s.style.animationDelay=(Math.random()*.6)+"s";
+    box.appendChild(s);
+  }
+  document.body.appendChild(box);
+  setTimeout(()=>box.remove(),2600);
+}
+function toast(msg){
+  const t=document.createElement("div");t.className="toast";t.textContent=msg;
+  document.body.appendChild(t);setTimeout(()=>t.remove(),2800);
+}
+
+/* ===== SIGN-UP ===== */
+$("#signupForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const f=Object.fromEntries(new FormData(e.target));
+  const btn=$("#sendBtn");btn.disabled=true;btn.textContent="Sending…";
+  const record={...f,submittedAt:new Date().toISOString()};
+  let sent=false;
+  if(FORM_ENDPOINT){
+    try{
+      const r=await fetch(FORM_ENDPOINT,{method:"POST",headers:{"Content-Type":"application/json",Accept:"application/json"},body:JSON.stringify(record)});
+      sent=r.ok;
+    }catch(err){sent=false}
+  }
+  try{
+    const list=JSON.parse(localStorage.getItem("maja_leads")||"[]");
+    list.push(record);localStorage.setItem("maja_leads",JSON.stringify(list));
+  }catch(err){}
+  state.name=f.name;state.signedUp=true;save();
+
+  show($("#signupCard"),false);
+  $("#welcomeName").textContent=f.name;
+  show($("#successCard"),true);
+  show($("#levelsSection"),true);
+  renderLevels();renderStats();
+  celebrate(false);
+  $("#levelsSection").scrollIntoView({behavior:"smooth"});
+  if(!sent && FORM_ENDPOINT) toast("Saved on this device. We'll retry sending soon.");
+});
+
+/* ===== INIT ===== */
+(function init(){
+  renderStats();
+  if(state.signedUp){
+    show($("#signupCard"),false);
+    $("#welcomeName").textContent=state.name;
+    show($("#successCard"),true);
+    show($("#levelsSection"),true);
+    renderLevels();
+  }
+})();
+</script>
+</body>
+</html>
